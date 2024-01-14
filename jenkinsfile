@@ -1,0 +1,32 @@
+pipeline {
+    agent { label 'Jenkins-Agent' }
+    tools {
+        jdk 'Java17'
+        maven 'Maven'
+    }
+    stages{
+        stage("Cleanup Workspace"){
+                steps {
+                cleanWs()
+                }
+        }
+
+        stage("Checkout from SCM"){
+                steps {
+                git branch: 'main' ,credentialsid: 'github' , url:https://github.com/saitharunk/Devops.git
+                }
+        }
+
+        stage("Build Application"){
+            steps {
+            }
+                sh "mvn clean package"
+
+        }
+     }
+     stage("Test  Applications"){
+         steps {
+               sh "mvn test"
+         }
+    }
+}
